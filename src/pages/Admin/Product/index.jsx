@@ -32,7 +32,6 @@ export default function Product() {
         } catch (error) {
             console.log(error)
         }
-
     }
 
     useEffect(() => {
@@ -48,7 +47,6 @@ export default function Product() {
         setIsUpdated(false)
         getAllProducts(category, provider, isExisted)
     }, [isUpdated, category, provider, isExisted])
-
 
     const columns = [
         {
@@ -192,22 +190,28 @@ export default function Product() {
                 handleConfirm={() => handleDelete()}
             />
             <h2>Quản lý sản phẩm</h2>
-            <Box sx={{ mb: 2, mt: 3, display: 'flex', justifyContent: 'space-between' }}>
-                <FilterTable
-                    chooseCategory={(category) => setCategory(category)}
-                    chooseProvider={(provider) => setProvider(provider)}
-                    chooseIsExisted={(isExisted) => setIsExisted(isExisted)}
-                />
-                <Button
-                    variant="contained"
-                    onClick={() => {
-                        setIsEdit(true)
-                        setIsOpenAddModal(true)
-                    }}>
-                    Thêm sản phẩm
-                </Button>
-            </Box>
-            <DataTable columns={columns} rows={listProducts} />
+
+            <DataTable
+                columns={columns}
+                rows={listProducts}
+                children={
+                    <>
+                        <FilterTable
+                            chooseCategory={(category) => setCategory(category)}
+                            chooseProvider={(provider) => setProvider(provider)}
+                            chooseIsExisted={(isExisted) => setIsExisted(isExisted)}
+                        />
+                        <Button
+                            variant="contained"
+                            onClick={() => {
+                                setIsEdit(true)
+                                setIsOpenAddModal(true)
+                            }}>
+                            Thêm sản phẩm
+                        </Button>
+                    </>
+                }
+            />
         </>
     )
 }

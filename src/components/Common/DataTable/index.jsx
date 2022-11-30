@@ -1,15 +1,48 @@
-import { Paper } from '@mui/material'
-import { DataGrid, GridToolbar, GridToolbarQuickFilter } from '@mui/x-data-grid'
+import SearchIcon from '@mui/icons-material/Search'
+import { Box, InputAdornment, Paper } from '@mui/material'
+import { DataGrid, GridToolbarQuickFilter } from '@mui/x-data-grid'
 import clsx from 'clsx'
 import { useState } from 'react'
 import CustomNoRowsOverlay from './CustomNoRowsOverLay'
 
-function DataTable({ columns, rows }) {
+function DataTable({ columns, rows, children, titleSearch }) {
     const [pageSize, setPageSize] = useState(15)
+    function QuickSearchToolbar() {
+        return (
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    mb: 2
+                }}>
+                <GridToolbarQuickFilter
+                    InputProps={{
+                        sx: { border: 1 },
+                        autoComplete: 'off',
+                        startAdornment: <InputAdornment position="start"></InputAdornment>,
+                        endAdornment: (
+                            <InputAdornment position="start">
+                                <SearchIcon />
+                            </InputAdornment>
+                        )
+                    }}
+                    placeholder={titleSearch ? titleSearch : 'Tìm kiếm'}
+                    quickFilterParser={(searchInput) =>
+                        searchInput
+                            .split(',')
+                            .map((value) => value.trim())
+                            .filter((value) => value !== '')
+                    }
+                />
+                {children}
+            </Box>
+        )
+    }
 
     return (
-        <Paper style={{ display: 'flex', height: '85%' }}>
-            <div style={{ flexGrow: 1 }}>
+        <Paper style={{ display: 'flex', height: '100%' }}>
+            <Box sx={{ flexGrow: 1, p: 2 }}>
                 <DataGrid
                     sx={{
                         '& .MuiDataGrid-columnHeaders': {
@@ -17,7 +50,9 @@ function DataTable({ columns, rows }) {
                         },
                         '& .MuiDataGrid-toolbarContainer': {
                             backgroundColor: 'rgba(230, 134, 86, 0.3)'
-                        }
+                        },
+                        p: 2,
+                        maxHeight: '90%'
                     }}
                     className={clsx('table')}
                     disableColumnFilter
@@ -32,11 +67,11 @@ function DataTable({ columns, rows }) {
                     onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                     rowsPerPageOptions={[15, 30, 50]}
                     components={{
-                        Toolbar: GridToolbarQuickFilter,
+                        Toolbar: QuickSearchToolbar,
                         NoRowsOverlay: CustomNoRowsOverlay
                     }}
                 />
-            </div>
+            </Box>
         </Paper>
     )
 }

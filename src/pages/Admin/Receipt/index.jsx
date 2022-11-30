@@ -3,7 +3,7 @@ import DataTable from '@/components/Common/DataTable'
 import ConfirmModal from '@/components/Common/Modal/ConfirmModal'
 import { EditRounded } from '@mui/icons-material'
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded'
-import { Button, Tooltip } from '@mui/material'
+import { Breadcrumbs, Button, Link, Stack, Tooltip, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -57,6 +57,8 @@ function Receipt() {
             field: 'customerName',
             headerName: 'TÊN KHÁCH HÀNG',
             flex: 1,
+            headerAlign: 'center',
+            align: 'center',
             renderCell: (params) => {
                 return (
                     params.row.customer.firstName +
@@ -71,6 +73,8 @@ function Receipt() {
             field: 'phone',
             headerName: 'SỐ ĐIỆN THOẠI',
             flex: 1,
+            headerAlign: 'center',
+            align: 'center',
             renderCell: (params) => {
                 return params.row.customer.phone
             }
@@ -79,6 +83,8 @@ function Receipt() {
             field: 'createdBy',
             headerName: 'NGƯỜI TẠO',
             flex: 1,
+            headerAlign: 'center',
+            align: 'center',
             renderCell: (params) => {
                 return params.row.employeeSale.username
             }
@@ -87,6 +93,8 @@ function Receipt() {
             field: 'totalOrderPrice',
             headerName: 'TỔNG HÓA ĐƠN',
             flex: 1,
+            headerAlign: 'center',
+            align: 'center',
             valueFormatter: (params) => {
                 if (params.value == null) {
                     return ''
@@ -98,6 +106,8 @@ function Receipt() {
             field: 'dateCreated',
             headerName: 'NGÀY TẠO',
             flex: 1,
+            headerAlign: 'center',
+            align: 'center',
             type: 'number',
             valueFormatter: (params) => {
                 if (params.value == null) {
@@ -111,6 +121,8 @@ function Receipt() {
             field: 'actions',
             headerName: 'TÁC VỤ',
             flex: 1.5,
+            headerAlign: 'center',
+            align: 'center',
             renderCell: (params) => {
                 return (
                     <>
@@ -128,12 +140,11 @@ function Receipt() {
                             <Button
                                 aria-label="delete"
                                 variant="contained"
-                                size="small"
+                                size="large"
                                 onClick={() => {
                                     setSelectedRow(params.row)
                                     setIsOpenConfirmModal(true)
                                 }}>
-                                HỦY
                                 <ClearRoundedIcon fontSize="inherit" />
                             </Button>
                         </Tooltip>
@@ -141,14 +152,13 @@ function Receipt() {
                             <Button
                                 aria-label="delete"
                                 variant="contained"
-                                size="small"
+                                size="large"
                                 onClick={() => {
                                     setSelectedRow(params.row)
                                     setIsOpenPrintModal(true)
                                     // handlePrint()
                                     // console.log(params)
                                 }}>
-                                Xuất
                                 <EditRounded fontSize="inherit" />
                             </Button>
                         </Tooltip>
@@ -176,23 +186,42 @@ function Receipt() {
                     setIsOpenPrintModal(false)
                 }}
             />
-            <h2>Quản lý hóa đơn</h2>
-            <Box
+            <Stack
+                direction="row"
                 sx={{
-                    mb: 2,
-                    mt: 3,
-                    display: 'flex',
-                    justifyContent: 'space-between'
+                    height: 75,
+                    justifyContent: 'space-between',
+                    backgroundColor: 'white',
+                    p: 2,
+                    mb: 1,
+                    alignItems: 'center'
                 }}>
-                <Button
-                    variant="contained"
-                    sx={{ float: 'right' }}
-                    onClick={() => navigate('../receipts/createReceipt')}>
-                    Thêm hóa đơn
-                </Button>
-            </Box>
+                <Breadcrumbs aria-label="breadcrumb">
+                    <Link underline="hover" color="inherit" href="/">
+                        Đổi hộ
+                    </Link>
+                    <Link
+                        underline="hover"
+                        color="inherit"
+                        href="/material-ui/getting-started/installation/">
+                        Đổi hộ
+                    </Link>
+                    <Typography color="text.primary">Đổi hộ</Typography>
+                </Breadcrumbs>
+            </Stack>
 
-            <DataTable columns={columns} rows={listProducts} />
+            <DataTable
+                titleSearch="Đổi cái place holder này "
+                columns={columns}
+                rows={listProducts}
+                children={
+                    <Button
+                        variant="contained"
+                        onClick={() => navigate('../receipts/createReceipt')}>
+                        Thêm hóa đơn
+                    </Button>
+                }
+            />
             {selectedRow && (
                 <Box ref={componentRef}>
                     <ReceiptPrint data={selectedRow} />

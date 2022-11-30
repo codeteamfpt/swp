@@ -47,7 +47,12 @@ function Sidebar() {
         { name: 'Chấm công', href: '/admin/timekeeping', path: '/timekeeping', allow: ['MANAGER'] },
         { name: 'Bảng lương', href: '/admin/payrolls', path: '/payrolls', allow: ['MANAGER'] },
         { name: 'Đơn hàng', href: '/admin/orders', path: '/orders', allow: ['MANAGER', 'SELLER'] },
-        { name: 'Thông Tin Khách Hàng', href: '/admin/dataCustomer', path: '/dataCustomer', allow: ['MANAGER', 'SELLER'] },
+        {
+            name: 'Thông Tin Khách Hàng',
+            href: '/admin/dataCustomer',
+            path: '/dataCustomer',
+            allow: ['MANAGER', 'SELLER']
+        },
         {
             name: 'Quản lý phụ cấp',
             href: '/admin/manager/allowance',
@@ -82,14 +87,13 @@ function Sidebar() {
                     setAuth(null)
                 }}
             />
-            <Box sx={{ p: 2 }}>
-                <Paper elevation={2} sx={{ height: '100%' }}>
+            <Box>
+                <Paper elevation={2} sx={{ overflow: 'auto', height: '96vh' }}>
                     <List
                         sx={{
                             display: 'flex',
                             flexDirection: 'column',
-                            justifyContent: 'space-between',
-                            height: '100%'
+                            justifyContent: 'space-between'
                         }}>
                         <Box>
                             <Box>
@@ -107,7 +111,7 @@ function Sidebar() {
                                     />
                                 </ListItem>
                             </Box>
-                            <Box sx={{ overflow: 'auto', height: '75vh' }}>
+                            <Box sx={{ overflow: 'auto' }}>
                                 <Divider />
                                 {items.map((item, index) => (
                                     <ListItem

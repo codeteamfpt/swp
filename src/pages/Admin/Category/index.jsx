@@ -3,7 +3,7 @@ import DataTable from '@/components/Common/DataTable'
 import ConfirmModal from '@/components/Common/Modal/ConfirmModal'
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded'
 import EditRoundedIcon from '@mui/icons-material/EditRounded'
-import { Button, IconButton, Tooltip, Typography } from '@mui/material'
+import { Breadcrumbs, Button, IconButton, Link, Stack, Tooltip, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -35,10 +35,9 @@ export default function Category() {
     const handleDelete = async () => {
         try {
             const response = await categoryApi.deleteCategory(selectedRow?.row.id)
-            if (response.message == 'Xóa thất bại'){
+            if (response.message == 'Xóa thất bại') {
                 toast.error('Danh mục có chứa sản phẩm, không thể xóa !')
-            }
-            else{
+            } else {
                 toast.success('Xóa thành công !')
             }
             setIsOpenConfirmModal(false)
@@ -53,6 +52,8 @@ export default function Category() {
             field: 'name',
             headerName: 'TÊN',
             flex: 1,
+            headerAlign: 'center',
+            align: 'center',
             renderCell: (params) => {
                 return <Typography sx={{ fontWeight: 'bold' }}>{params.value}</Typography>
             }
@@ -65,17 +66,23 @@ export default function Category() {
         {
             field: 'description',
             headerName: 'MÔ TẢ',
-            flex: 1
+            flex: 1,
+            headerAlign: 'center',
+            align: 'center'
         },
         {
             field: 'quantity',
             headerName: 'SỐ SẢN PHẨM',
-            flex: 1
+            flex: 1,
+            headerAlign: 'center',
+            align: 'center'
         },
         {
             field: 'view',
             headerName: 'THAO TÁC',
             flex: 1,
+            headerAlign: 'center',
+            align: 'center',
             renderCell: (params) => {
                 return (
                     <>
@@ -109,7 +116,13 @@ export default function Category() {
         }
     ]
     return (
-        <>
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                height: '100%'
+            }}>
             {isOpenAddModal && (
                 <ModalAddCategory
                     isOpen={isOpenAddModal}
@@ -138,17 +151,44 @@ export default function Category() {
                 handleClose={() => setIsOpenConfirmModal(false)}
                 handleConfirm={() => handleDelete()}
             />
-            <h2>Quản lý danh mục</h2>
-            <Box sx={{ mb: 2, mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
-                <Button
-                    variant="contained"
-                    onClick={() => {
-                        setIsOpenAddModal(true)
-                    }}>
-                    Thêm danh mục
-                </Button>
-            </Box>
-            <DataTable columns={columns} rows={listCategory} />
-        </>
+            <Stack
+                direction="row"
+                sx={{
+                    height: 75,
+                    justifyContent: 'space-between',
+                    backgroundColor: 'white',
+                    p: 2,
+                    mb: 1,
+                    alignItems: 'center'
+                }}>
+                <Breadcrumbs aria-label="breadcrumb">
+                    <Link underline="hover" color="inherit" href="/">
+                        Đổi cái này
+                    </Link>
+                    <Link
+                        underline="hover"
+                        color="inherit"
+                        href="/material-ui/getting-started/installation/">
+                        Đổi cái này
+                    </Link>
+                    <Typography color="text.primary">Quản lý danh mục</Typography>
+                </Breadcrumbs>
+            </Stack>
+
+            <DataTable
+                titleSearch="Tìm kiếm 1 thứ gì đó"
+                columns={columns}
+                rows={listCategory}
+                children={
+                    <Button
+                        variant="contained"
+                        onClick={() => {
+                            setIsOpenAddModal(true)
+                        }}>
+                        Thêm danh mục
+                    </Button>
+                }
+            />
+        </Box>
     )
 }
