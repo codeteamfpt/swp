@@ -1,9 +1,9 @@
 import orderApi from '@/api/orderApi'
 import DataTable from '@/components/Common/DataTable'
 import ConfirmModal from '@/components/Common/Modal/ConfirmModal'
-import { EditRounded } from '@mui/icons-material'
+import { EditRounded, Visibility } from '@mui/icons-material'
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded'
-import { Breadcrumbs, Button, Link, Stack, Tooltip, Typography } from '@mui/material'
+import { Breadcrumbs, Button, IconButton, Link, Stack, Tooltip, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -127,32 +127,30 @@ function Receipt() {
                 return (
                     <>
                         <Tooltip title="Xem">
-                            <Button
-                                variant="contained"
+                            <IconButton
+                                aria-label="view"
                                 size="small"
                                 onClick={() => {
                                     navigate(`/admin/receipts/details/${params.row.id}`)
                                 }}>
-                                Xem
-                            </Button>
+                                <Visibility />
+                            </IconButton>
                         </Tooltip>
-                        <Tooltip title="Xóa" sx={{ m: 1 }}>
-                            <Button
-                                aria-label="delete"
-                                variant="contained"
-                                size="large"
+                        <Tooltip title="Xóa">
+                            <IconButton
+                                aria-label="view"
+                                size="small"
                                 onClick={() => {
                                     setSelectedRow(params.row)
                                     setIsOpenConfirmModal(true)
                                 }}>
                                 <ClearRoundedIcon fontSize="inherit" />
-                            </Button>
+                            </IconButton>
                         </Tooltip>
                         <Tooltip title="XUẤT">
-                            <Button
-                                aria-label="delete"
-                                variant="contained"
-                                size="large"
+                            <IconButton
+                                aria-label="view"
+                                size="small"
                                 onClick={() => {
                                     setSelectedRow(params.row)
                                     setIsOpenPrintModal(true)
@@ -160,7 +158,7 @@ function Receipt() {
                                     // console.log(params)
                                 }}>
                                 <EditRounded fontSize="inherit" />
-                            </Button>
+                            </IconButton>
                         </Tooltip>
                     </>
                 )
